@@ -1,13 +1,37 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# # Mall CUSTOMER SEGMENTATION ANALYSIS WITH PYTHON
 
+# # INTRODUCTION
 
+# ## Customer Segmentation
 
+# Customer segmentation is the practice of dividing a company’s customers into groups that reflect similarity among customers in each group. The goal of segmenting customers is to decide how to relate to customers in each segment in order to maximize the value of each customer to the business.
 
+# ## Customer Segmentation Analysis
 
-# In[22]:
+# Customer segmentation analysis is the process performed when looking to discover insights that define specific segments of customers. Marketers and brands leverage this process to determine what campaigns, offers, or products to leverage when communicating with specific segments.
+# Customer segmentation analysis is the process performed when looking to discover insights that define specific segments of customers. Marketers and brands leverage this process to determine what campaigns, offers, or products to leverage when communicating with specific segments.
+# 
+# 
+
+# # METHDOLOGY
+
+# This project uses common cluster analysis method known as k-means cluster analysis, sometimes referred to as scientific segmentation. The clusters that result assist in better customer modeling and predictive analytics, and are also are used to target customers with offers and incentives personalized to their wants, needs and preferences.the process is not based on any predetermined thresholds or rules. Rather, the data itself reveals the customer prototypes that inherently exist within the population of customers
+# 
+# K-Means is the most popular clustering algorithm. It uses an iterative technique to group unlabeled data into K clusters based on cluster centers (centroids). The data in each cluster are chosen such that their average distance to their respective centroid is minimized.
+# 
+# 1. Randomly place K centroids for the initial clusters.
+# 2. Assign each data point to their nearest centroid.
+# 3. Update centroid locations based on the locations of the data points.
+# Repeat Steps 2 and 3 until points don’t move between clusters and centroids stabilize.
+
+# # RESULTS 
+
+# Import necessary libraries  and load data
+
+# In[1]:
 
 
 
@@ -19,7 +43,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-# In[11]:
+# In[2]:
 
 
 df=pd.read_csv("C:/Users/Dell i5/OneDrive - Cape Peninsula University of Technology/Desktop/Portfolio projects/Customer segmentation/Mall_Customers.csv")
@@ -27,23 +51,20 @@ df=pd.read_csv("C:/Users/Dell i5/OneDrive - Cape Peninsula University of Technol
 
 # # Univariate analysis
 
-# In[12]:
+# In[3]:
 
 
 df.head()
 
 
-# In[13]:
+# In[4]:
 
 
 df.describe()
 
 
-# In[23]:
-
-
-sns.distplot(df["Annual Income (k$)"])
-
+# 
+# The annual income of customers ranges from a low of 15 thousand dollar to a high of 137 thousand dollars with an average of 60 thousand dollars.The median anual income suggest that half of customers earn less that 61.5 thousand dollars while the other half earns more than the amount.
 
 # In[20]:
 
@@ -54,12 +75,15 @@ df.columns
 # In[24]:
 
 
+#plot the distribution of variables (Age, Annual Income (k$), Spending Score (1-100))
 columns=['Age', 'Annual Income (k$)',
        'Spending Score (1-100)']
 for i in columns:
     plt.figure()
     sns.distplot(df[i])
 
+
+# The distribution of age and annual income are slightly right skewed. it suggests that there are more younger customers(less than 50) compared to older custmers and that a single peak of the range 60-70 thousand dollars is most common. Moreover the distribution of spending score apears to be roughly normally distributed with the most common score rughly at 50.
 
 # In[26]:
 
@@ -125,6 +149,8 @@ df.corr()
 
 sns.heatmap(df.corr(),annot=True,cmap='coolwarm')
 
+
+# females customers have the lower average annual income campared to males and they spend more than males, age has a negative correlation with annual income and spending score while annual income have a positive correlation with the spending score of customers
 
 # # Clustering
 
@@ -242,6 +268,17 @@ sns.scatterplot(data=df, x ='Annual Income (k$)',y='Spending Score (1-100)',hue=
 plt.savefig('clustering_bivaraiate.png')
 
 
+# cluster 0 represents low income and low spending customers
+# cluster 1 represents high income and high spendng customers
+# cluster 2 represents midium income and medium spending customers
+# cluster 3 represents low income and low spending customers 
+# cluster 4 represents high income and low spending customers
+# 
+# tailored marketing strategies for each group can be made. The business may want to have focus promotions on cluster 1 to increase retention, offer incentives for cluster 4 to increase spending, and facilitate a brother investigation to understand why cluster 3 is spending low and explore ways to which these custpmers can be engaged. The results further shows that in the spending and income cluster via gender crosstable,in cluster 3 percentage females is highest at 61% compared to males at 39%, these have an average age of 45 years. 
+# 
+# 
+# 
+
 # In[59]:
 
 
@@ -256,11 +293,11 @@ df.groupby('Spending and Income Cluster')['Age', 'Annual Income (k$)',
        'Spending Score (1-100)'].mean()
 
 
+# # Mulivariate clustering 
+
 # In[61]:
 
 
-
-#mulivariate clustering 
 from sklearn.preprocessing import StandardScaler
 
 
